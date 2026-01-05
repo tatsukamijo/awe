@@ -1,6 +1,6 @@
 torch
 torchvision
-mujoco-py
+# mujoco-py  # Not needed for robosuite 1.5+ with mujoco 3.x
 tqdm
 wandb
 ipdb

@@ -17,10 +17,16 @@ def _read_file(fname):
 
 
 def _read_install_requires():
-    with pathlib.Path("requirements.txt").open() as fp:
-        return [
+    # Use __file__ to get correct path regardless of cwd
+    this_dir = pathlib.Path(__file__).parent
+    req_path = this_dir / "requirements.txt"
+    with req_path.open() as fp:
+        reqs = [
             str(requirement) for requirement in pkg_resources.parse_requirements(fp)
         ]
+    # Exclude mujoco-py (not needed for robosuite 1.5+ with mujoco 3.x)
+    reqs = [r for r in reqs if not r.startswith("mujoco-py")]
+    return reqs
 
 
 def _fill_extras(extras):
