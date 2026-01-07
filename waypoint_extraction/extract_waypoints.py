@@ -163,6 +163,7 @@ def dp_waypoint_selection(
     initial_states=None,
     remove_obj=None,
     pos_only=False,
+    verbose=False,
 ):
     if actions is None:
         actions = copy.deepcopy(gt_states)
@@ -199,7 +200,8 @@ def dp_waypoint_selection(
     # Check if err_threshold is too small, then return all points as waypoints
     min_error = func(actions, gt_states, list(range(1, num_frames)))
     if err_threshold < min_error:
-        print("Error threshold is too small, returning all points as waypoints.")
+        if verbose:
+            print("Error threshold is too small, returning all points as waypoints.")
         return list(range(1, num_frames))
 
     # Populate the memoization table using an iterative bottom-up approach
@@ -232,10 +234,11 @@ def dp_waypoint_selection(
     # remove duplicates
     waypoints = list(set(waypoints))
     waypoints.sort()
-    print(
-        f"Minimum number of waypoints: {len(waypoints)} \tTrajectory Error: {total_traj_err}"
-    )
-    print(f"waypoint positions: {waypoints}")
+    if verbose:
+        print(
+            f"Minimum number of waypoints: {len(waypoints)} \tTrajectory Error: {total_traj_err}"
+        )
+        print(f"waypoint positions: {waypoints}")
 
     return waypoints
 

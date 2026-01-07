@@ -84,7 +84,7 @@ def geometric_waypoint_trajectory(actions, gt_states, waypoints, return_list=Fal
 
 
 def pos_only_geometric_waypoint_trajectory(
-    actions, gt_states, waypoints, return_list=False
+    actions, gt_states, waypoints, return_list=False, verbose=False
 ):
     """Compute the geometric trajectory from the waypoints"""
 
@@ -113,10 +113,10 @@ def pos_only_geometric_waypoint_trajectory(
             )
             state_err.append(pos_err)
 
-    # print the average and max error
-    print(
-        f"Average pos error: {np.mean(state_err):.6f} \t Max pos error: {np.max(state_err):.6f}"
-    )
+    if verbose:
+        print(
+            f"Average pos error: {np.mean(state_err):.6f} \t Max pos error: {np.max(state_err):.6f}"
+        )
 
     if return_list:
         return total_traj_err(state_err), state_err
